@@ -1,0 +1,156 @@
+
+
+Q1: Replace each array element by its corresponding rank
+ 
+ 
+  Given an array of distinct integers, replace each array element by its corresponding rank in the array.
+
+using System;
+using System.Linq;
+class Program
+{
+    static int[] ReplaceWithRank(int[] arr)
+    {
+        int[] sortedArr = arr.OrderBy(x => x).ToArray();
+        var rankDict = sortedArr.Select((value, index) => new { Value = value, Rank = index + 1 })
+                                 .ToDictionary(pair => pair.Value, pair => pair.Rank);
+        int[] result = arr.Select(val => rankDict[val]).ToArray();
+        return result;
+    }
+    static void Main(string[] args)
+    {
+        int[] inputArray = { 10, 8, 15, 12, 6, 20, 1 };
+        int[] outputArray = ReplaceWithRank(inputArray);
+        Console.WriteLine("Input: [" + string.Join(", ", inputArray) + "]");
+        Console.WriteLine("Output: [" + string.Join(", ", outputArray) + "]");
+    }
+}
+
+
+
+
+
+
+
+
+Q2: Given a string s, find the length of the longest substring without repeating characters.
+
+using System;
+using System.Collections.Generic;
+class Program
+{
+    static int LongestSubstring(string s)
+    {
+        int start = 0;
+        int maxLength = 0;
+        Dictionary<char, int> charIndex = new Dictionary<char, int>();
+        for (int i = 0; i < s.Length; i++)
+        {
+            char currentChar = s[i];
+            if (charIndex.ContainsKey(currentChar) && charIndex[currentChar] >= start)
+            {
+                start = charIndex[currentChar] + 1;
+            }
+            charIndex[currentChar] = i;
+            maxLength = Math.Max(maxLength, i - start + 1);
+        }
+        return maxLength;
+    }
+    static void Main(string[] args)
+    {
+        Console.WriteLine(LongestSubstring("abcabcbb")); 
+        Console.WriteLine(LongestSubstring("bbbbb"));     
+        Console.WriteLine(LongestSubstring("pwwkew"));    
+    }
+}
+
+
+
+
+
+
+Q3:Find non-repeating characters in a string 
+
+
+using System;
+using System.Collections.Generic;
+class Program
+{
+    static List<char> FindNonRepeatingCharacters(string s)
+    {
+        Dictionary<char, int> charFreq = new Dictionary<char, int>();
+        List<char> nonRepeatingChars = new List<char>();
+        foreach (char c in s)
+        {
+            if (charFreq.ContainsKey(c))
+            {
+                charFreq[c]++;
+            }
+            else
+            {
+                charFreq[c] = 1;
+            }
+        }
+        foreach (char c in s)
+        {
+            if (charFreq[c] == 1)
+            {
+                nonRepeatingChars.Add(c);
+            }
+        }
+         return nonRepeatingChars;
+    }
+
+    static void Main(string[] args)
+    {
+        string input = "aabbccddseeff";
+        List<char> nonRepeatingChars = FindNonRepeatingCharacters(input);
+        Console.WriteLine("Non-repeating characters:");
+        foreach (char c in nonRepeatingChars)
+        {
+            Console.WriteLine(c);
+        }
+    }
+}
+
+
+
+
+
+
+
+
+
+Q4:You are given an array of integers. 
+Write a C# program to find the frequency of each unique element in the array and 
+store the results in a dictionary where the key is the element and the value is its frequency.
+Then, print the elements and their frequencies.
+
+
+
+using System;
+using System.Collections.Generic;
+class Program
+{
+    static void Main(string[] args)
+    {
+        int[] numbers = { 1, 2, 2, 3, 3, 3, 4, 4, 4, 4 };
+        Dictionary<int, int> frequencyDict = new Dictionary<int, int>();
+        foreach (int num in numbers)
+        {
+            if (frequencyDict.ContainsKey(num))
+            {
+                frequencyDict[num]++;
+            }
+            else
+            {
+                frequencyDict[num] = 1;
+            }
+        }
+        foreach (var pair in frequencyDict)
+        {
+            Console.WriteLine($"Element: {pair.Key}, Frequency: {pair.Value}");
+        }
+    }
+}
+
